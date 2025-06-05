@@ -1,27 +1,32 @@
 :root {
-    /* New Blue Color Palette */
-    --primary-color: #3B82F6; /* Blue-500 from Tailwind as an example */
-    --primary-hover-color: #2563EB; /* Darker blue for hover */
-    --accent-color: #60A5FA; /* Lighter blue */
+    /* Blue Color Palette (Kept from previous) */
+    --primary-color: #3B82F6; 
+    --primary-hover-color: #2563EB;
+    --accent-color: #60A5FA; 
     
-    --secondary-color: #1F2937; /* Dark Gray-Blue (good for text on light, or dark backgrounds) */
-    --dark-bg: #111827; /* Even darker, for headers/footers (Tailwind Gray-900) */
+    --secondary-color: #1F2937; 
+    --dark-bg: #111827; 
     
-    --light-bg: #F3F4F6; /* Light Gray (Tailwind Gray-100) */
-    --card-bg: #FFFFFF; /* White for cards */
-    
-    --text-light: #F9FAFB; /* Off-white for text on dark backgrounds */
-    --text-dark: #1F2937;  /* Dark gray for text on light backgrounds */
-    --text-muted: #6B7280; /* Medium gray for less important text */
+    /* Gradient Background Colors for Body */
+    --body-gradient-start: #EBF4FF; /* Lighter, softer blue */
+    --body-gradient-end: #F8FAFC;   /* Very light gray, almost white (Tailwind slate-50) */
 
-    --border-color: #D1D5DB; /* Gray-300 for borders */
-    --border-radius-sm: 4px;
-    --border-radius-md: 8px;
-    --border-radius-lg: 12px;
+    --card-bg: #FFFFFF; 
+    --light-bg-solid: #F3F4F6; /* Solid light background for fallbacks or specific elements */
+    
+    --text-light: #F9FAFB; 
+    --text-dark: #1F2937;  
+    --text-muted: #6B7280; 
+
+    --border-color: #D1D5DB; 
+    /* Updated Border Radii for more pronounced curves */
+    --border-radius-sm: 6px;
+    --border-radius-md: 10px;
+    --border-radius-lg: 16px; /* For cards and smaller elements */
+    --border-radius-xl: 24px; /* For larger "panel" sections */
     
     --transition-speed: 0.2s ease-in-out;
 
-    /* Modern Shadow System */
     --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
     --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -2px rgba(0, 0, 0, 0.1);
     --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -4px rgba(0, 0, 0, 0.1);
@@ -36,14 +41,17 @@
 
 html {
     scroll-behavior: smooth;
-    font-size: 16px; /* Base font size */
+    font-size: 16px;
 }
 
 body {
     font-family: 'Roboto', sans-serif;
     line-height: 1.7;
     color: var(--text-dark);
-    background-color: var(--light-bg);
+    /* Applying the gradient background */
+    background-image: linear-gradient(135deg, var(--body-gradient-start) 0%, var(--body-gradient-end) 100%);
+    background-attachment: fixed; /* Keeps the gradient fixed during scroll */
+    background-size: cover;       /* Ensures the gradient covers the entire page */
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
 }
@@ -66,7 +74,7 @@ a:hover {
 
 h1, h2, h3, h4, h5, h6 {
     font-family: 'Montserrat', sans-serif;
-    margin-bottom: 0.75em; /* Relative margin */
+    margin-bottom: 0.75em;
     color: var(--secondary-color);
     font-weight: 700;
 }
@@ -77,17 +85,17 @@ h3 { font-size: clamp(1.5em, 3vw, 2em); line-height: 1.3; }
 
 .btn {
     display: inline-block;
-    padding: 0.75em 1.5em; /* Relative padding */
-    border-radius: var(--border-radius-md);
-    font-weight: 600; /* Slightly less bold */
+    padding: 0.75em 1.5em;
+    border-radius: var(--border-radius-md); /* Updated radius */
+    font-weight: 600;
     text-align: center;
     transition: background-color var(--transition-speed), color var(--transition-speed), border-color var(--transition-speed), transform var(--transition-speed);
     cursor: pointer;
-    border: 2px solid transparent; /* Base border */
+    border: 2px solid transparent;
 }
 
 .btn:hover {
-    transform: translateY(-2px); /* Subtle lift on hover */
+    transform: translateY(-2px);
 }
 
 .btn-primary {
@@ -119,7 +127,7 @@ h3 { font-size: clamp(1.5em, 3vw, 2em); line-height: 1.3; }
     margin-bottom: 0.5em;
     background-color: var(--primary-color);
     color: var(--text-light);
-    border-radius: var(--border-radius-sm);
+    border-radius: var(--border-radius-sm); /* Updated radius */
     font-size: 0.9em;
     transition: background-color var(--transition-speed);
 }
@@ -131,7 +139,7 @@ h3 { font-size: clamp(1.5em, 3vw, 2em); line-height: 1.3; }
 header {
     background-color: var(--dark-bg);
     color: var(--text-light);
-    padding: 1.25em 0; /* Relative padding */
+    padding: 1.25em 0;
     position: sticky;
     top: 0;
     z-index: 1000;
@@ -150,7 +158,7 @@ header .container {
     font-weight: 700;
     color: var(--text-light);
     text-transform: uppercase;
-    letter-spacing: 1px; /* Added letter spacing */
+    letter-spacing: 1px;
 }
 
 .main-nav .nav-links {
@@ -174,8 +182,8 @@ header .container {
     content: '';
     position: absolute;
     width: 0;
-    height: 3px; /* Slightly thicker underline */
-    bottom: -5px; /* Position underline below text */
+    height: 3px;
+    bottom: -5px;
     left: 0;
     background-color: var(--primary-color);
     transition: width var(--transition-speed);
@@ -184,7 +192,7 @@ header .container {
 
 .main-nav .nav-links a:hover,
 .main-nav .nav-links a.active {
-    color: var(--accent-color); /* Change text color on hover/active too */
+    color: var(--accent-color);
 }
 
 .main-nav .nav-links a:hover::after,
@@ -204,11 +212,12 @@ header .container {
 .hero {
     background: linear-gradient(135deg, var(--primary-color) 0%, var(--accent-color) 100%);
     color: var(--text-light);
-    padding: clamp(4em, 10vh, 6em) 0; /* Responsive padding */
+    padding: clamp(4em, 10vh, 6em) 0;
     text-align: center;
     display: flex;
     align-items: center;
-    min-height: calc(100vh - 85px); /* Adjusted for header height */
+    /* min-height: calc(100vh - 85px); Remove if sections below have margins */
+    position: relative; /* Ensures it sits above the body gradient properly if needed */
 }
 
 .hero .container {
@@ -224,7 +233,7 @@ header .container {
 }
 
 .hero-content h1 {
-    font-size: clamp(2.8em, 6vw, 4em); /* Responsive font size */
+    font-size: clamp(2.8em, 6vw, 4em);
     margin-bottom: 0.25em;
     color: var(--text-light);
     font-weight: 700;
@@ -258,16 +267,37 @@ header .container {
     margin: 0.5em;
 }
 
+/* Base section styling */
 section {
-    padding: clamp(3em, 8vh, 5em) 0; /* Responsive padding */
+    /* Vertical padding is for the content inside the panel/section */
+    /* Margins will be handled by .content-panel or specific section styles */
     text-align: center;
+    position: relative;
 }
 
-section:nth-of-type(odd) { /* Changed to odd for alternating, if desired */
-    background-color: var(--card-bg); /* White for some sections for contrast */
+/* Styling for main content sections to appear as "panels" on the gradient */
+.content-panel {
+    background-color: var(--card-bg);
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 3em; /* Space from previous element or header */
+    margin-bottom: 3em; /* Space before next element or footer */
+    border-radius: var(--border-radius-xl); /* Prominent curved corners */
+    box-shadow: var(--shadow-lg);
+    max-width: 1200px; /* Constrain width like the container */
+    /* The .container inside will provide horizontal padding */
+    /* Vertical padding for the content within the panel: */
+    padding-top: clamp(3em, 8vh, 4em);
+    padding-bottom: clamp(3em, 8vh, 4em);
 }
 
-section h2 {
+/* Remove old alternating background if it existed and ensure default is transparent */
+section:nth-of-type(odd) {
+    background-color: transparent; 
+}
+
+
+section h2 { /* Applies to headings within sections/panels */
     margin-bottom: 1.5em;
     position: relative;
     display: inline-block;
@@ -293,9 +323,10 @@ section h2::after {
     color: var(--text-muted);
 }
 
+/* About section specific styles remain, but it's now a .content-panel */
 .about-section .about-content {
     text-align: left;
-    max-width: 800px;
+    max-width: 800px; /* This will be inside the .container of the .content-panel */
     margin: 0 auto;
     font-size: 1.1em;
     line-height: 1.8;
@@ -320,52 +351,53 @@ section h2::after {
     color: var(--text-light);
     padding: 0.5em 1em;
     margin: 0.5em;
-    border-radius: var(--border-radius-md);
+    border-radius: var(--border-radius-md); /* Updated radius */
     font-weight: 500;
     font-size: 0.95em;
     white-space: nowrap;
     box-shadow: var(--shadow-sm);
 }
 
+/* Projects section specific, it's a .content-panel */
 .projects-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); /* Slightly larger min size */
-    gap: 2em; /* Increased gap */
-    max-width: 1100px;
-    margin: 0 auto;
+    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+    gap: 2em;
+    /* max-width: 1100px; Remove as .content-panel or .container handles width */
+    margin: 0 auto; /* Centering grid if it's narrower than container */
 }
 
 .project-card {
     background-color: var(--card-bg);
-    border-radius: var(--border-radius-lg); /* Larger radius for cards */
+    border-radius: var(--border-radius-lg); /* Updated radius */
     overflow: hidden;
     box-shadow: var(--shadow-md);
     transition: transform var(--transition-speed), box-shadow var(--transition-speed);
     text-align: left;
     display: flex;
-    flex-direction: column; /* Ensure footer aligns at bottom */
+    flex-direction: column;
 }
 
 .project-card:hover {
-    transform: translateY(-8px); /* More noticeable lift */
+    transform: translateY(-8px);
     box-shadow: var(--shadow-lg);
 }
 
 .project-card img {
     width: 100%;
-    height: 220px; /* Increased height */
+    height: 220px;
     object-fit: cover;
     display: block;
     border-bottom: 1px solid var(--border-color);
 }
 
-.project-card .project-content { /* Wrapper for text content */
+.project-card .project-content {
     padding: 1.5em;
-    flex-grow: 1; /* Allows this section to grow */
+    flex-grow: 1;
 }
 
 .project-card h3 {
-    margin: 0 0 0.5em 0; /* Adjusted margins */
+    margin: 0 0 0.5em 0;
     color: var(--secondary-color);
     font-size: 1.5em;
 }
@@ -383,45 +415,46 @@ section h2::after {
 
 .project-card .project-tech span {
     display: inline-block;
-    background-color: var(--accent-color); /* Use light blue from palette */
-    color: var(--primary-color); /* Use primary text for contrast */
+    background-color: var(--accent-color);
+    color: var(--primary-color);
     font-size: 0.8em;
     font-weight: 500;
     padding: 0.3em 0.8em;
-    border-radius: var(--border-radius-sm);
+    border-radius: var(--border-radius-sm); /* Updated radius */
     margin-right: 0.5em;
     margin-bottom: 0.5em;
 }
 
 .project-card .project-links {
-    padding: 1em 1.5em; /* Adjusted padding */
+    padding: 1em 1.5em;
     border-top: 1px solid var(--border-color);
     display: flex;
     flex-wrap: wrap;
     gap: 0.75em;
-    margin-top: auto; /* Pushes links to the bottom if card content is short */
+    margin-top: auto;
 }
 
+/* Contact section specific, it's a .content-panel */
 .contact-content {
     display: flex;
     flex-wrap: wrap;
-    justify-content: center;
+    justify-content: center; /* Center items if they don't fill the space */
     gap: 2.5em;
     text-align: left;
-    max-width: 1000px;
+    /* max-width: 1000px; Remove as .content-panel or .container handles width */
     margin: 0 auto;
 }
 
 .contact-form, .contact-info {
-    flex: 1;
+    flex: 1 1 400px; /* Allow growing and shrinking, base width 400px */
     min-width: 300px;
-    max-width: 500px; /* Max width for form/info */
+    max-width: 500px; /* Limit max width for better layout */
 }
 
 .contact-form {
     background-color: var(--card-bg);
-    padding: 2em; /* Increased padding */
-    border-radius: var(--border-radius-lg);
+    padding: 2em;
+    border-radius: var(--border-radius-lg); /* Updated radius */
     box-shadow: var(--shadow-md);
 }
 
@@ -442,7 +475,7 @@ section h2::after {
     width: 100%;
     padding: 0.8em 1em;
     border: 1px solid var(--border-color);
-    border-radius: var(--border-radius-md);
+    border-radius: var(--border-radius-md); /* Updated radius */
     font-size: 1em;
     font-family: 'Roboto', sans-serif;
     transition: border-color var(--transition-speed), box-shadow var(--transition-speed);
@@ -452,21 +485,21 @@ section h2::after {
 .form-group textarea:focus {
     outline: none;
     border-color: var(--primary-color);
-    box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.3); /* Adjusted focus shadow to match primary */
+    box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.3);
 }
 
 .contact-form button {
     width: 100%;
     padding: 1em;
     font-size: 1.1em;
-    border: none; /* Button styles are handled by .btn-primary */
+    border: none;
 }
 
 .contact-info {
-    background-color: var(--secondary-color); /* Use dark gray/blue */
+    background-color: var(--secondary-color);
     color: var(--text-light);
     padding: 2em;
-    border-radius: var(--border-radius-lg);
+    border-radius: var(--border-radius-lg); /* Updated radius */
     box-shadow: var(--shadow-md);
 }
 
@@ -484,13 +517,13 @@ section h2::after {
 }
 
 .contact-info a {
-    color: var(--accent-color); /* Use accent for links on dark bg */
+    color: var(--accent-color);
     text-decoration: underline;
     font-weight: 500;
 }
 
 .contact-info a:hover {
-    color: var(--primary-color); /* Slightly darker blue on hover */
+    color: var(--primary-color);
 }
 
 .contact-info .social-links {
@@ -500,19 +533,19 @@ section h2::after {
     gap: 1.5em;
 }
 
-.contact-info .social-links img { /* Assuming you still use img tags */
-    width: 36px; /* Adjusted size */
+.contact-info .social-links img {
+    width: 36px;
     height: 36px;
     transition: transform var(--transition-speed);
-    filter: brightness(0) invert(1); /* Make icons white */
+    filter: brightness(0) invert(1);
 }
 .contact-info .social-links.large-icons img {
-    width: 44px; /* Adjusted size */
+    width: 44px;
     height: 44px;
 }
 
 .contact-info .social-links a:hover img {
-    transform: scale(1.15); /* Slightly larger scale */
+    transform: scale(1.15);
 }
 
 .contact-info .availability {
@@ -523,12 +556,13 @@ section h2::after {
 }
 
 footer {
-    background-color: var(--dark-bg); /* Consistent dark background */
+    background-color: var(--dark-bg);
     color: var(--text-light);
     text-align: center;
     padding: 2.5em 0;
-    margin-top: 3em;
+    /* margin-top: 3em; Remove if .content-panel has bottom margin */
     font-size: 0.95em;
+    position: relative; /* Ensures it sits above the body gradient properly */
 }
 
 footer .social-links {
@@ -541,23 +575,28 @@ footer .social-links a {
 }
 
 footer .social-links img {
-    width: 28px; /* Slightly larger footer icons */
+    width: 28px;
     height: 28px;
-    filter: brightness(0) invert(1); /* Make icons white */
+    filter: brightness(0) invert(1);
     transition: transform var(--transition-speed);
 }
 
 footer .social-links a:hover img {
-    transform: translateY(-4px) scale(1.1); /* Combined effect */
+    transform: translateY(-4px) scale(1.1);
 }
 
 /* Responsive Adjustments */
 @media (max-width: 992px) {
+    .content-panel {
+        margin-left: 20px; /* Give some space from viewport edges */
+        margin-right: 20px;
+        max-width: calc(100% - 40px); /* Ensure it doesn't touch edges */
+    }
     .hero .container {
-        flex-direction: column; /* Keep image on top or bottom consistently */
+        flex-direction: column;
     }
      .hero-image {
-        order: -1; /* Moves image above text on medium screens */
+        order: -1;
         margin-bottom: 2em;
     }
     .hero-content {
@@ -568,37 +607,40 @@ footer .social-links a:hover img {
         width: 260px;
         height: 260px;
     }
-    .about-section .about-content,
-    .contact-content {
-        padding: 0 1em;
-    }
     .projects-grid {
         grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
     }
 }
 
 @media (max-width: 768px) {
+    .content-panel {
+        margin-top: 2em;
+        margin-bottom: 2em;
+        padding-top: 2em;
+        padding-bottom: 2em;
+        border-radius: var(--border-radius-lg); /* Slightly smaller radius for panels on mobile */
+    }
     header .container {
         flex-wrap: wrap;
     }
     .main-nav {
         width: 100%;
         margin-top: 1em;
-        order: 3; /* Ensure it's below logo and hamburger */
+        order: 3;
     }
     .main-nav .nav-links {
         flex-direction: column;
         width: 100%;
-        display: none; /* Handled by JS */
-        background-color: var(--secondary-color); /* Darker dropdown */
+        display: none;
+        background-color: var(--secondary-color);
         position: absolute;
-        top: calc(100% + 10px); /* Position below header with small gap */
+        top: calc(100% + 10px);
         left: 0;
-        right: 0; /* Ensure full width */
+        right: 0;
         box-shadow: var(--shadow-lg);
         border-radius: 0 0 var(--border-radius-md) var(--border-radius-md);
         padding: 0.5em 0;
-        max-height: calc(100vh - 100px); /* Prevent overly long dropdown */
+        max-height: calc(100vh - 100px);
         overflow-y: auto;
     }
     .main-nav .nav-links.active {
@@ -606,7 +648,7 @@ footer .social-links a:hover img {
     }
     .main-nav .nav-links li {
         margin: 0;
-        border-bottom: 1px solid rgba(249, 250, 251, 0.1); /* Lighter border */
+        border-bottom: 1px solid rgba(249, 250, 251, 0.1);
     }
     .main-nav .nav-links li:last-child {
         border-bottom: none;
@@ -615,19 +657,19 @@ footer .social-links a:hover img {
         padding: 1em 1.5em;
         display: block;
         width: 100%;
-        color: var(--text-light); /* Ensure text is light */
+        color: var(--text-light);
     }
     .main-nav .nav-links a:hover,
     .main-nav .nav-links a.active {
-        background-color: var(--primary-color); /* Highlight on hover/active */
+        background-color: var(--primary-color);
         color: var(--text-light);
     }
-    .main-nav .nav-links a::after { /* No underline needed in mobile dropdown */
+    .main-nav .nav-links a::after {
         display: none;
     }
     .hamburger {
         display: block;
-        order: 2; /* Position after logo */
+        order: 2;
     }
     .hero {
         padding: 3em 0;
@@ -639,26 +681,27 @@ footer .social-links a:hover img {
         max-width: 300px;
         margin: 1em auto;
     }
-     .hero-image {
-        order: 0; /* Reset order if needed or keep as is */
-    }
-    section {
-        padding: 3em 0;
-    }
-    .skills-list {
-        padding: 0 1em; /* Add padding for smaller screens */
-    }
     .projects-grid {
-        grid-template-columns: 1fr; /* Single column on small screens */
+        grid-template-columns: 1fr;
         gap: 1.5em;
     }
     .contact-content {
         flex-direction: column;
-        padding: 0 1em;
+        gap: 1.5em; /* Reduced gap for mobile */
+    }
+    .contact-form, .contact-info {
+        flex-basis: auto; /* Reset flex-basis for stacked layout */
     }
 }
 
 @media (max-width: 480px) {
+    .content-panel {
+        margin-left: 10px;
+        margin-right: 10px;
+        max-width: calc(100% - 20px);
+        padding-top: 1.5em;
+        padding-bottom: 1.5em;
+    }
     .hero-image img {
         max-width: 220px;
         width: 220px;
@@ -672,6 +715,6 @@ footer .social-links a:hover img {
         margin-right: 0;
     }
      .contact-form, .contact-info {
-        padding: 1.5em; /* Reduce padding on very small screens */
+        padding: 1.5em;
     }
 }
