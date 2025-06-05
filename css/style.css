@@ -1,27 +1,13 @@
-/* @property definitions must be at the very top */
-@property --animated-primary-color {
-  syntax: '<color>';
-  inherits: true;
-  initial-value: #3B82F6;
-}
+/* @property definitions removed for simplicity and compatibility */
 
-@property --animated-accent-color {
-  syntax: '<color>';
-  inherits: true;
-  initial-value: #60A5FA;
-}
-
+/* ===== Color Variables ===== */
 :root {
-    /* Animated colors */
-    --primary-color: var(--animated-primary-color);
-    --accent-color: var(--animated-accent-color);
-    
     /* Static colors that are not part of the animation */
     --primary-hover-color: #2563EB; 
     --secondary-color: #1F2937; 
     --dark-bg: #111827; 
     
-    /* Gradient Background Colors for Body (these remain static) */
+    /* Gradient Background Colors for Body (these remain static in fallback) */
     --body-gradient-start: #EBF4FF;
     --body-gradient-end: #F8FAFC;
 
@@ -46,30 +32,40 @@
     --shadow-xl: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 8px 10px -6px rgba(0, 0, 0, 0.1);
 }
 
-/* Keyframes for the color animation */
-@keyframes dynamic-gradient-colors {
-  0% {
-    --animated-primary-color: #3B82F6; /* Blue */
-    --animated-accent-color: #60A5FA;  /* Light Blue */
-  }
-  25% {
-    --animated-primary-color: #EC4899; /* Pink */
-    --animated-accent-color: #F472B6;  /* Lighter Pink */
-  }
-  50% {
-    --animated-primary-color: #10B981; /* Green */
-    --animated-accent-color: #34D399;  /* Lighter Green */
-  }
-  75% {
-    --animated-primary-color: #F59E0B; /* Amber */
-    --animated-accent-color: #FBBF24;  /* Lighter Amber */
-  }
-  100% {
-    --animated-primary-color: #3B82F6; /* Back to Blue */
-    --animated-accent-color: #60A5FA;  /* Light Blue */
-  }
+/* ===== Dynamic Gradient Animation for Body ===== */
+body {
+    font-family: 'Roboto', sans-serif;
+    line-height: 1.7;
+    color: var(--text-dark);
+    background: linear-gradient(270deg,
+        #1DE9B6,  /* Teal */
+        #7149C6,  /* Violet */
+        #FFB74D,  /* Orange */
+        #00B8D4,  /* Turquoise */
+        #1DE9B6   /* Teal again for loop */
+    );
+    background-size: 1500% 1500%;
+    animation: animated-gradient 20s ease-in-out infinite;
+    background-attachment: fixed; 
+    background-size: cover;       
+    min-height: 100vh;          
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
 }
 
+@keyframes animated-gradient {
+    0% {
+        background-position: 0% 50%;
+    }
+    50% {
+        background-position: 100% 50%;
+    }
+    100% {
+        background-position: 0% 50%;
+    }
+}
+
+/* ===== Reset & Base Styles ===== */
 * {
     margin: 0;
     padding: 0;
@@ -81,24 +77,6 @@ html {
     font-size: 16px;
 }
 
-body {
-    font-family: 'Roboto', sans-serif;
-    line-height: 1.7;
-    color: var(--text-dark);
-    
-    background-color: var(--body-gradient-start); /* Fallback */
-    background-image: linear-gradient(135deg, var(--body-gradient-start) 0%, var(--body-gradient-end) 100%); /* This gradient remains static */
-    background-attachment: fixed; 
-    background-size: cover;       
-    min-height: 100vh;          
-    
-    -webkit-font-smoothing: antialiased;
-    -moz-osx-font-smoothing: grayscale;
-
-    /* Apply the animation to the body so the variables update globally */
-    animation: dynamic-gradient-colors 20s infinite linear; 
-}
-
 .container {
     max-width: 1200px;
     margin: 0 auto;
@@ -107,12 +85,12 @@ body {
 
 a {
     text-decoration: none;
-    color: var(--primary-color); /* Will use animated color */
+    color: #1DE9B6;
     transition: color var(--transition-speed);
 }
 
 a:hover {
-    color: var(--primary-hover-color); /* Static hover color */
+    color: var(--primary-hover-color);
 }
 
 h1, h2, h3, h4, h5, h6 {
@@ -126,6 +104,7 @@ h1 { font-size: clamp(2.5em, 5vw, 3.5em); line-height: 1.1; }
 h2 { font-size: clamp(2em, 4vw, 2.8em); line-height: 1.2; }
 h3 { font-size: clamp(1.5em, 3vw, 2em); line-height: 1.3; }
 
+/* ===== Buttons ===== */
 .btn {
     display: inline-block;
     padding: 0.75em 1.5em;
@@ -142,24 +121,24 @@ h3 { font-size: clamp(1.5em, 3vw, 2em); line-height: 1.3; }
 }
 
 .btn-primary {
-    background-color: var(--primary-color); /* Animated background */
+    background-color: #7149C6;
     color: var(--text-light);
-    border-color: var(--primary-color); /* Animated border */
+    border-color: #7149C6;
 }
 
 .btn-primary:hover {
-    background-color: var(--primary-hover-color); /* Static hover */
-    border-color: var(--primary-hover-color); /* Static hover */
+    background-color: var(--primary-hover-color);
+    border-color: var(--primary-hover-color);
 }
 
 .btn-secondary {
     background-color: transparent;
-    color: var(--primary-color); /* Animated text */
-    border: 2px solid var(--primary-color); /* Animated border */
+    color: #1DE9B6;
+    border: 2px solid #1DE9B6;
 }
 
 .btn-secondary:hover {
-    background-color: var(--primary-color); /* Animated hover background */
+    background-color: #1DE9B6;
     color: var(--text-light);
 }
 
@@ -168,7 +147,7 @@ h3 { font-size: clamp(1.5em, 3vw, 2em); line-height: 1.3; }
     padding: 0.5em 1em;
     margin-right: 0.5em;
     margin-bottom: 0.5em;
-    background-color: var(--primary-color); /* Animated background */
+    background-color: #7149C6;
     color: var(--text-light);
     border-radius: var(--border-radius-sm);
     font-size: 0.9em;
@@ -176,9 +155,10 @@ h3 { font-size: clamp(1.5em, 3vw, 2em); line-height: 1.3; }
 }
 
 .btn-project:hover {
-    background-color: var(--primary-hover-color); /* Static hover */
+    background-color: var(--primary-hover-color);
 }
 
+/* ===== Header ===== */
 header {
     background-color: var(--dark-bg);
     color: var(--text-light);
@@ -228,14 +208,14 @@ header .container {
     height: 3px;
     bottom: -5px;
     left: 0;
-    background-color: var(--primary-color); /* Animated underline */
+    background-color: #1DE9B6;
     transition: width var(--transition-speed), background-color var(--transition-speed);
     border-radius: var(--border-radius-sm);
 }
 
 .main-nav .nav-links a:hover,
 .main-nav .nav-links a.active {
-    color: var(--accent-color); /* Animated text color on hover/active */
+    color: #00B8D4;
 }
 
 .main-nav .nav-links a:hover::after,
@@ -252,16 +232,16 @@ header .container {
     cursor: pointer;
 }
 
+/* ===== Hero ===== */
 .hero {
-    /* This gradient will use the animated --primary-color and --accent-color */
-    background: linear-gradient(135deg, var(--primary-color) 0%, var(--accent-color) 100%);
+    background: linear-gradient(135deg, #1DE9B6 0%, #7149C6 100%);
     color: var(--text-light);
     padding: clamp(4em, 10vh, 6em) 0;
     text-align: center;
     display: flex;
     align-items: center;
     position: relative; 
-    transition: background var(--transition-speed); /* For smooth background change if needed, may or may not work perfectly with animated CSS props */
+    transition: background var(--transition-speed);
 }
 
 .hero .container {
@@ -311,6 +291,7 @@ header .container {
     margin: 0.5em;
 }
 
+/* ===== Panels, Sections, Cards ===== */
 .content-panel {
     background-color: var(--card-bg);
     margin-left: auto;
@@ -344,7 +325,7 @@ section h2::after {
     position: absolute;
     width: 70px;
     height: 4px;
-    background-color: var(--primary-color); /* Animated color for underline */
+    background-color: #1DE9B6;
     left: 50%;
     transform: translateX(-50%);
     bottom: -10px;
@@ -360,6 +341,7 @@ section h2::after {
     color: var(--text-muted);
 }
 
+/* ===== About Section ===== */
 .about-section .about-content {
     text-align: left;
     max-width: 800px; 
@@ -373,6 +355,7 @@ section h2::after {
     color: var(--text-dark);
 }
 
+/* ===== Skills List ===== */
 .skills-list {
     list-style: none;
     display: flex;
@@ -383,7 +366,7 @@ section h2::after {
 }
 
 .skills-list li {
-    background-color: var(--primary-color); /* Animated background */
+    background-color: #7149C6;
     color: var(--text-light);
     padding: 0.5em 1em;
     margin: 0.5em;
@@ -395,6 +378,7 @@ section h2::after {
     transition: background-color var(--transition-speed);
 }
 
+/* ===== Projects Grid ===== */
 .projects-grid {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
@@ -450,8 +434,8 @@ section h2::after {
 
 .project-card .project-tech span {
     display: inline-block;
-    background-color: var(--accent-color); /* Animated background */
-    color: var(--primary-color); /* Animated text (might need contrast adjustment) */
+    background-color: #00B8D4;
+    color: #FFB74D;
     font-size: 0.8em;
     font-weight: 500;
     padding: 0.3em 0.8em;
@@ -470,6 +454,7 @@ section h2::after {
     margin-top: auto;
 }
 
+/* ===== Contact Section ===== */
 .contact-content {
     display: flex;
     flex-wrap: wrap;
@@ -518,8 +503,8 @@ section h2::after {
 .form-group input:focus,
 .form-group textarea:focus {
     outline: none;
-    border-color: var(--primary-color); /* Animated focus border */
-    box-shadow: 0 0 0 3px var(--animated-primary-color, rgba(59, 130, 246, 0.3)); /* Animated focus shadow with fallback */
+    border-color: #1DE9B6;
+    box-shadow: 0 0 0 3px rgba(29, 233, 182, 0.3);
 }
 
 .contact-form button {
@@ -551,13 +536,13 @@ section h2::after {
 }
 
 .contact-info a {
-    color: var(--accent-color); /* Animated color */
+    color: #00B8D4;
     text-decoration: underline;
     font-weight: 500;
 }
 
 .contact-info a:hover {
-    color: var(--primary-color); /* Animated color on hover */
+    color: #1DE9B6;
 }
 
 .contact-info .social-links {
@@ -589,6 +574,7 @@ section h2::after {
     opacity: 0.8;
 }
 
+/* ===== Footer ===== */
 footer {
     background-color: var(--dark-bg);
     color: var(--text-light);
@@ -619,7 +605,7 @@ footer .social-links a:hover img {
     transform: translateY(-4px) scale(1.1);
 }
 
-/* Responsive Adjustments */
+/* ===== Responsive Adjustments ===== */
 @media (max-width: 992px) {
     .content-panel {
         margin-left: 20px;
@@ -695,7 +681,7 @@ footer .social-links a:hover img {
     }
     .main-nav .nav-links a:hover,
     .main-nav .nav-links a.active {
-        background-color: var(--primary-color); /* Will be animated */
+        background-color: #1DE9B6;
         color: var(--text-light);
     }
     .main-nav .nav-links a::after {
