@@ -12,32 +12,33 @@
 }
 
 :root {
-    /* Animated colors */
+    /* Animated colors (these will smoothly transition via animation) */
     --primary-color: var(--animated-primary-color);
     --accent-color: var(--animated-accent-color);
-    
+
     /* Static colors that are not part of the animation */
-    --primary-hover-color: #2563EB; 
-    --secondary-color: #1F2937; 
-    --dark-bg: #111827; 
-    
-    /* Gradient Background Colors for Body (these remain static) */
-    --body-gradient-start: #EBF4FF;
-    --body-gradient-end: #F8FAFC;
+    --primary-hover-color: #2563EB;
+    --secondary-color: #1F2937;
+    --dark-bg: #111827;
 
-    --card-bg: #FFFFFF; 
+    /* Removed --body-gradient-start and --body-gradient-end
+       as the body will now use the animated --primary-color and --accent-color
+       If you want to keep them for other purposes, they can remain,
+       but they won't drive the body's dynamic gradient. */
+
+    --card-bg: #FFFFFF;
     --light-bg-solid: #F3F4F6;
-    
-    --text-light: #F9FAFB; 
-    --text-dark: #1F2937;  
-    --text-muted: #6B7280; 
 
-    --border-color: #D1D5DB; 
+    --text-light: #F9FAFB;
+    --text-dark: #1F2937;
+    --text-muted: #6B7280;
+
+    --border-color: #D1D5DB;
     --border-radius-sm: 6px;
     --border-radius-md: 10px;
     --border-radius-lg: 16px;
     --border-radius-xl: 24px;
-    
+
     --transition-speed: 0.2s ease-in-out;
 
     --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
@@ -85,18 +86,27 @@ body {
     font-family: 'Roboto', sans-serif;
     line-height: 1.7;
     color: var(--text-dark);
-    
-    background-color: var(--body-gradient-start); /* Fallback */
-    background-image: linear-gradient(135deg, var(--body-gradient-start) 0%, var(--body-gradient-end) 100%); /* This gradient remains static */
-    background-attachment: fixed; 
-    background-size: cover;       
-    min-height: 100vh;          
-    
+
+    /* THE FIX IS HERE: Use animated primary/accent colors for the body background gradient */
+    background: linear-gradient(135deg, var(--primary-color) 0%, var(--accent-color) 100%);
+    /*
+     * Important Note:
+     * When using CSS `@property` to animate custom property values (like colors),
+     * the browser automatically interpolates these values smoothly over time.
+     * Therefore, you DO NOT need a separate `transition` property on `background` or `background-image`
+     * in the `body` selector itself, as the `animation` on the body already takes care of updating
+     * the `--animated-primary-color` and `--animated-accent-color` variables smoothly.
+     */
+
+    background-attachment: fixed;
+    background-size: cover;
+    min-height: 100vh;
+
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
 
     /* Apply the animation to the body so the variables update globally */
-    animation: dynamic-gradient-colors 20s infinite linear; 
+    animation: dynamic-gradient-colors 20s infinite linear;
 }
 
 .container {
@@ -253,15 +263,15 @@ header .container {
 }
 
 .hero {
-    /* This gradient will use the animated --primary-color and --accent-color */
+    /* This gradient already uses the animated --primary-color and --accent-color, which is correct */
     background: linear-gradient(135deg, var(--primary-color) 0%, var(--accent-color) 100%);
     color: var(--text-light);
     padding: clamp(4em, 10vh, 6em) 0;
     text-align: center;
     display: flex;
     align-items: center;
-    position: relative; 
-    transition: background var(--transition-speed); /* For smooth background change if needed, may or may not work perfectly with animated CSS props */
+    position: relative;
+    /* Transition not strictly needed on `background` as @property interpolates colors directly */
 }
 
 .hero .container {
@@ -325,12 +335,12 @@ header .container {
     position: relative;
 }
 
-section { 
+section {
     text-align: center;
 }
 
 section:nth-of-type(odd), section:nth-of-type(even) {
-    background-color: transparent; 
+    background-color: transparent;
 }
 
 section h2 {
@@ -362,7 +372,7 @@ section h2::after {
 
 .about-section .about-content {
     text-align: left;
-    max-width: 800px; 
+    max-width: 800px;
     margin: 0 auto;
     font-size: 1.1em;
     line-height: 1.8;
@@ -451,7 +461,7 @@ section h2::after {
 .project-card .project-tech span {
     display: inline-block;
     background-color: var(--accent-color); /* Animated background */
-    color: var(--primary-color); /* Animated text (might need contrast adjustment) */
+    color: var(--text-dark); /* Changed color for better contrast if primary is light and accent is light */
     font-size: 0.8em;
     font-weight: 500;
     padding: 0.3em 0.8em;
@@ -519,7 +529,7 @@ section h2::after {
 .form-group textarea:focus {
     outline: none;
     border-color: var(--primary-color); /* Animated focus border */
-    box-shadow: 0 0 0 3px var(--animated-primary-color, rgba(59, 130, 246, 0.3)); /* Animated focus shadow with fallback */
+    box-shadow: 0 0 0 3px var(--accent-color); /* Animated focus shadow with fallback */
 }
 
 .contact-form button {
