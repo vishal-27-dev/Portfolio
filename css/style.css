@@ -1,29 +1,42 @@
+/* @property definitions must be at the very top */
+@property --animated-primary-color {
+  syntax: '<color>';
+  inherits: true;
+  initial-value: #3B82F6;
+}
+
+@property --animated-accent-color {
+  syntax: '<color>';
+  inherits: true;
+  initial-value: #60A5FA;
+}
+
 :root {
-    /* Blue Color Palette (Kept from previous) */
-    --primary-color: #3B82F6; 
-    --primary-hover-color: #2563EB;
-    --accent-color: #60A5FA; 
+    /* Animated colors */
+    --primary-color: var(--animated-primary-color);
+    --accent-color: var(--animated-accent-color);
     
+    /* Static colors that are not part of the animation */
+    --primary-hover-color: #2563EB; 
     --secondary-color: #1F2937; 
     --dark-bg: #111827; 
     
-    /* Gradient Background Colors for Body */
-    --body-gradient-start: #EBF4FF; /* Lighter, softer blue */
-    --body-gradient-end: #F8FAFC;   /* Very light gray, almost white (Tailwind slate-50) */
+    /* Gradient Background Colors for Body (these remain static) */
+    --body-gradient-start: #EBF4FF;
+    --body-gradient-end: #F8FAFC;
 
     --card-bg: #FFFFFF; 
-    --light-bg-solid: #F3F4F6; /* Solid light background for fallbacks or specific elements */
+    --light-bg-solid: #F3F4F6;
     
     --text-light: #F9FAFB; 
     --text-dark: #1F2937;  
     --text-muted: #6B7280; 
 
     --border-color: #D1D5DB; 
-    /* Updated Border Radii for more pronounced curves */
     --border-radius-sm: 6px;
     --border-radius-md: 10px;
-    --border-radius-lg: 16px; /* For cards and smaller elements */
-    --border-radius-xl: 24px; /* For larger "panel" sections */
+    --border-radius-lg: 16px;
+    --border-radius-xl: 24px;
     
     --transition-speed: 0.2s ease-in-out;
 
@@ -31,6 +44,30 @@
     --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -2px rgba(0, 0, 0, 0.1);
     --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -4px rgba(0, 0, 0, 0.1);
     --shadow-xl: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 8px 10px -6px rgba(0, 0, 0, 0.1);
+}
+
+/* Keyframes for the color animation */
+@keyframes dynamic-gradient-colors {
+  0% {
+    --animated-primary-color: #3B82F6; /* Blue */
+    --animated-accent-color: #60A5FA;  /* Light Blue */
+  }
+  25% {
+    --animated-primary-color: #EC4899; /* Pink */
+    --animated-accent-color: #F472B6;  /* Lighter Pink */
+  }
+  50% {
+    --animated-primary-color: #10B981; /* Green */
+    --animated-accent-color: #34D399;  /* Lighter Green */
+  }
+  75% {
+    --animated-primary-color: #F59E0B; /* Amber */
+    --animated-accent-color: #FBBF24;  /* Lighter Amber */
+  }
+  100% {
+    --animated-primary-color: #3B82F6; /* Back to Blue */
+    --animated-accent-color: #60A5FA;  /* Light Blue */
+  }
 }
 
 * {
@@ -48,12 +85,18 @@ body {
     font-family: 'Roboto', sans-serif;
     line-height: 1.7;
     color: var(--text-dark);
-    /* Applying the gradient background */
-    background-image: linear-gradient(135deg, var(--body-gradient-start) 0%, var(--body-gradient-end) 100%);
-    background-attachment: fixed; /* Keeps the gradient fixed during scroll */
-    background-size: cover;       /* Ensures the gradient covers the entire page */
+    
+    background-color: var(--body-gradient-start); /* Fallback */
+    background-image: linear-gradient(135deg, var(--body-gradient-start) 0%, var(--body-gradient-end) 100%); /* This gradient remains static */
+    background-attachment: fixed; 
+    background-size: cover;       
+    min-height: 100vh;          
+    
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
+
+    /* Apply the animation to the body so the variables update globally */
+    animation: dynamic-gradient-colors 20s infinite linear; 
 }
 
 .container {
@@ -64,12 +107,12 @@ body {
 
 a {
     text-decoration: none;
-    color: var(--primary-color);
+    color: var(--primary-color); /* Will use animated color */
     transition: color var(--transition-speed);
 }
 
 a:hover {
-    color: var(--primary-hover-color);
+    color: var(--primary-hover-color); /* Static hover color */
 }
 
 h1, h2, h3, h4, h5, h6 {
@@ -86,7 +129,7 @@ h3 { font-size: clamp(1.5em, 3vw, 2em); line-height: 1.3; }
 .btn {
     display: inline-block;
     padding: 0.75em 1.5em;
-    border-radius: var(--border-radius-md); /* Updated radius */
+    border-radius: var(--border-radius-md);
     font-weight: 600;
     text-align: center;
     transition: background-color var(--transition-speed), color var(--transition-speed), border-color var(--transition-speed), transform var(--transition-speed);
@@ -99,24 +142,24 @@ h3 { font-size: clamp(1.5em, 3vw, 2em); line-height: 1.3; }
 }
 
 .btn-primary {
-    background-color: var(--primary-color);
+    background-color: var(--primary-color); /* Animated background */
     color: var(--text-light);
-    border-color: var(--primary-color);
+    border-color: var(--primary-color); /* Animated border */
 }
 
 .btn-primary:hover {
-    background-color: var(--primary-hover-color);
-    border-color: var(--primary-hover-color);
+    background-color: var(--primary-hover-color); /* Static hover */
+    border-color: var(--primary-hover-color); /* Static hover */
 }
 
 .btn-secondary {
     background-color: transparent;
-    color: var(--primary-color);
-    border-color: var(--primary-color);
+    color: var(--primary-color); /* Animated text */
+    border: 2px solid var(--primary-color); /* Animated border */
 }
 
 .btn-secondary:hover {
-    background-color: var(--primary-color);
+    background-color: var(--primary-color); /* Animated hover background */
     color: var(--text-light);
 }
 
@@ -125,15 +168,15 @@ h3 { font-size: clamp(1.5em, 3vw, 2em); line-height: 1.3; }
     padding: 0.5em 1em;
     margin-right: 0.5em;
     margin-bottom: 0.5em;
-    background-color: var(--primary-color);
+    background-color: var(--primary-color); /* Animated background */
     color: var(--text-light);
-    border-radius: var(--border-radius-sm); /* Updated radius */
+    border-radius: var(--border-radius-sm);
     font-size: 0.9em;
     transition: background-color var(--transition-speed);
 }
 
 .btn-project:hover {
-    background-color: var(--primary-hover-color);
+    background-color: var(--primary-hover-color); /* Static hover */
 }
 
 header {
@@ -185,14 +228,14 @@ header .container {
     height: 3px;
     bottom: -5px;
     left: 0;
-    background-color: var(--primary-color);
-    transition: width var(--transition-speed);
+    background-color: var(--primary-color); /* Animated underline */
+    transition: width var(--transition-speed), background-color var(--transition-speed);
     border-radius: var(--border-radius-sm);
 }
 
 .main-nav .nav-links a:hover,
 .main-nav .nav-links a.active {
-    color: var(--accent-color);
+    color: var(--accent-color); /* Animated text color on hover/active */
 }
 
 .main-nav .nav-links a:hover::after,
@@ -210,14 +253,15 @@ header .container {
 }
 
 .hero {
+    /* This gradient will use the animated --primary-color and --accent-color */
     background: linear-gradient(135deg, var(--primary-color) 0%, var(--accent-color) 100%);
     color: var(--text-light);
     padding: clamp(4em, 10vh, 6em) 0;
     text-align: center;
     display: flex;
     align-items: center;
-    /* min-height: calc(100vh - 85px); Remove if sections below have margins */
-    position: relative; /* Ensures it sits above the body gradient properly if needed */
+    position: relative; 
+    transition: background var(--transition-speed); /* For smooth background change if needed, may or may not work perfectly with animated CSS props */
 }
 
 .hero .container {
@@ -267,37 +311,29 @@ header .container {
     margin: 0.5em;
 }
 
-/* Base section styling */
-section {
-    /* Vertical padding is for the content inside the panel/section */
-    /* Margins will be handled by .content-panel or specific section styles */
-    text-align: center;
-    position: relative;
-}
-
-/* Styling for main content sections to appear as "panels" on the gradient */
 .content-panel {
     background-color: var(--card-bg);
     margin-left: auto;
     margin-right: auto;
-    margin-top: 3em; /* Space from previous element or header */
-    margin-bottom: 3em; /* Space before next element or footer */
-    border-radius: var(--border-radius-xl); /* Prominent curved corners */
+    margin-top: 3em;
+    margin-bottom: 3em;
+    border-radius: var(--border-radius-xl);
     box-shadow: var(--shadow-lg);
-    max-width: 1200px; /* Constrain width like the container */
-    /* The .container inside will provide horizontal padding */
-    /* Vertical padding for the content within the panel: */
+    max-width: 1200px;
     padding-top: clamp(3em, 8vh, 4em);
     padding-bottom: clamp(3em, 8vh, 4em);
+    position: relative;
 }
 
-/* Remove old alternating background if it existed and ensure default is transparent */
-section:nth-of-type(odd) {
+section { 
+    text-align: center;
+}
+
+section:nth-of-type(odd), section:nth-of-type(even) {
     background-color: transparent; 
 }
 
-
-section h2 { /* Applies to headings within sections/panels */
+section h2 {
     margin-bottom: 1.5em;
     position: relative;
     display: inline-block;
@@ -308,11 +344,12 @@ section h2::after {
     position: absolute;
     width: 70px;
     height: 4px;
-    background-color: var(--primary-color);
+    background-color: var(--primary-color); /* Animated color for underline */
     left: 50%;
     transform: translateX(-50%);
     bottom: -10px;
     border-radius: var(--border-radius-sm);
+    transition: background-color var(--transition-speed);
 }
 
 .section-description {
@@ -323,10 +360,9 @@ section h2::after {
     color: var(--text-muted);
 }
 
-/* About section specific styles remain, but it's now a .content-panel */
 .about-section .about-content {
     text-align: left;
-    max-width: 800px; /* This will be inside the .container of the .content-panel */
+    max-width: 800px; 
     margin: 0 auto;
     font-size: 1.1em;
     line-height: 1.8;
@@ -347,29 +383,28 @@ section h2::after {
 }
 
 .skills-list li {
-    background-color: var(--primary-color);
+    background-color: var(--primary-color); /* Animated background */
     color: var(--text-light);
     padding: 0.5em 1em;
     margin: 0.5em;
-    border-radius: var(--border-radius-md); /* Updated radius */
+    border-radius: var(--border-radius-md);
     font-weight: 500;
     font-size: 0.95em;
     white-space: nowrap;
     box-shadow: var(--shadow-sm);
+    transition: background-color var(--transition-speed);
 }
 
-/* Projects section specific, it's a .content-panel */
 .projects-grid {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
     gap: 2em;
-    /* max-width: 1100px; Remove as .content-panel or .container handles width */
-    margin: 0 auto; /* Centering grid if it's narrower than container */
+    margin: 0 auto;
 }
 
 .project-card {
     background-color: var(--card-bg);
-    border-radius: var(--border-radius-lg); /* Updated radius */
+    border-radius: var(--border-radius-lg);
     overflow: hidden;
     box-shadow: var(--shadow-md);
     transition: transform var(--transition-speed), box-shadow var(--transition-speed);
@@ -415,14 +450,15 @@ section h2::after {
 
 .project-card .project-tech span {
     display: inline-block;
-    background-color: var(--accent-color);
-    color: var(--primary-color);
+    background-color: var(--accent-color); /* Animated background */
+    color: var(--primary-color); /* Animated text (might need contrast adjustment) */
     font-size: 0.8em;
     font-weight: 500;
     padding: 0.3em 0.8em;
-    border-radius: var(--border-radius-sm); /* Updated radius */
+    border-radius: var(--border-radius-sm);
     margin-right: 0.5em;
     margin-bottom: 0.5em;
+    transition: background-color var(--transition-speed), color var(--transition-speed);
 }
 
 .project-card .project-links {
@@ -434,27 +470,25 @@ section h2::after {
     margin-top: auto;
 }
 
-/* Contact section specific, it's a .content-panel */
 .contact-content {
     display: flex;
     flex-wrap: wrap;
-    justify-content: center; /* Center items if they don't fill the space */
+    justify-content: center;
     gap: 2.5em;
     text-align: left;
-    /* max-width: 1000px; Remove as .content-panel or .container handles width */
     margin: 0 auto;
 }
 
 .contact-form, .contact-info {
-    flex: 1 1 400px; /* Allow growing and shrinking, base width 400px */
+    flex: 1 1 400px;
     min-width: 300px;
-    max-width: 500px; /* Limit max width for better layout */
+    max-width: 500px;
 }
 
 .contact-form {
     background-color: var(--card-bg);
     padding: 2em;
-    border-radius: var(--border-radius-lg); /* Updated radius */
+    border-radius: var(--border-radius-lg);
     box-shadow: var(--shadow-md);
 }
 
@@ -475,7 +509,7 @@ section h2::after {
     width: 100%;
     padding: 0.8em 1em;
     border: 1px solid var(--border-color);
-    border-radius: var(--border-radius-md); /* Updated radius */
+    border-radius: var(--border-radius-md);
     font-size: 1em;
     font-family: 'Roboto', sans-serif;
     transition: border-color var(--transition-speed), box-shadow var(--transition-speed);
@@ -484,8 +518,8 @@ section h2::after {
 .form-group input:focus,
 .form-group textarea:focus {
     outline: none;
-    border-color: var(--primary-color);
-    box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.3);
+    border-color: var(--primary-color); /* Animated focus border */
+    box-shadow: 0 0 0 3px var(--animated-primary-color, rgba(59, 130, 246, 0.3)); /* Animated focus shadow with fallback */
 }
 
 .contact-form button {
@@ -499,7 +533,7 @@ section h2::after {
     background-color: var(--secondary-color);
     color: var(--text-light);
     padding: 2em;
-    border-radius: var(--border-radius-lg); /* Updated radius */
+    border-radius: var(--border-radius-lg);
     box-shadow: var(--shadow-md);
 }
 
@@ -517,13 +551,13 @@ section h2::after {
 }
 
 .contact-info a {
-    color: var(--accent-color);
+    color: var(--accent-color); /* Animated color */
     text-decoration: underline;
     font-weight: 500;
 }
 
 .contact-info a:hover {
-    color: var(--primary-color);
+    color: var(--primary-color); /* Animated color on hover */
 }
 
 .contact-info .social-links {
@@ -560,9 +594,9 @@ footer {
     color: var(--text-light);
     text-align: center;
     padding: 2.5em 0;
-    /* margin-top: 3em; Remove if .content-panel has bottom margin */
     font-size: 0.95em;
-    position: relative; /* Ensures it sits above the body gradient properly */
+    position: relative;
+    margin-top: 0;
 }
 
 footer .social-links {
@@ -588,9 +622,9 @@ footer .social-links a:hover img {
 /* Responsive Adjustments */
 @media (max-width: 992px) {
     .content-panel {
-        margin-left: 20px; /* Give some space from viewport edges */
+        margin-left: 20px;
         margin-right: 20px;
-        max-width: calc(100% - 40px); /* Ensure it doesn't touch edges */
+        max-width: calc(100% - 40px);
     }
     .hero .container {
         flex-direction: column;
@@ -618,7 +652,7 @@ footer .social-links a:hover img {
         margin-bottom: 2em;
         padding-top: 2em;
         padding-bottom: 2em;
-        border-radius: var(--border-radius-lg); /* Slightly smaller radius for panels on mobile */
+        border-radius: var(--border-radius-lg);
     }
     header .container {
         flex-wrap: wrap;
@@ -661,7 +695,7 @@ footer .social-links a:hover img {
     }
     .main-nav .nav-links a:hover,
     .main-nav .nav-links a.active {
-        background-color: var(--primary-color);
+        background-color: var(--primary-color); /* Will be animated */
         color: var(--text-light);
     }
     .main-nav .nav-links a::after {
@@ -687,10 +721,10 @@ footer .social-links a:hover img {
     }
     .contact-content {
         flex-direction: column;
-        gap: 1.5em; /* Reduced gap for mobile */
+        gap: 1.5em;
     }
     .contact-form, .contact-info {
-        flex-basis: auto; /* Reset flex-basis for stacked layout */
+        flex-basis: auto;
     }
 }
 
